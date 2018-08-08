@@ -22,7 +22,7 @@ class Solver(object):
         self.sess = tf.Session(config=run_config)
 
         self.flags = flags
-        self.dataset = Dataset(flags, self.flags.dataset)
+        self.dataset = Dataset(self.sess, flags, self.flags.dataset)
         self.model = WGAN(self.sess, self.flags, self.dataset)
 
         self._make_folders()

@@ -89,7 +89,7 @@ class WGAN(object):
             h2_relu = tf.nn.relu(h2_batchnorm, name='h2_relu')
 
             # 32 x 32
-            if (self.flags.dataset == 'mnist') or (self.flags.dataset == 'cifar10'):
+            if self.flags.dataset == 'mnist':
                 output = tf_utils.deconv2d(h2_relu, self.image_size[2], name='h3_deconv2d')
                 return tf.nn.tanh(output)
             else:
@@ -120,7 +120,7 @@ class WGAN(object):
             h2_batchnorm = tf_utils.batch_norm(h2_conv, name='h2_batchnorm', _ops=self._dis_train_ops)
             h2_lrelu = tf_utils.lrelu(h2_batchnorm, name='h2_lrelu')
 
-            if (self.flags.dataset == 'mnist') or (self.flags.dataset == 'cifar10'):
+            if self.flags.dataset == 'mnist':
                 h2_flatten = flatten(h2_lrelu)
                 h3_linear = tf_utils.linear(h2_flatten, 1, name='h3_linear')
 

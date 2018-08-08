@@ -13,7 +13,7 @@ FLAGS = tf.flags.FLAGS
 
 tf.flags.DEFINE_string('gpu_index', '0', 'gpu index, default: 0')
 tf.flags.DEFINE_integer('batch_size', 64, 'batch size for one feed forwrad, default: 64')
-tf.flags.DEFINE_string('dataset', 'celebA', 'dataset name for choice [celebA], default: celebA')
+tf.flags.DEFINE_string('dataset', 'celebA', 'dataset name for choice [celebA|mnist], default: celebA')
 
 tf.flags.DEFINE_bool('is_train', False, 'training or inference mode, default: False')
 tf.flags.DEFINE_float('learning_rate', 5e-5, 'initial learning rate, default: 0.00005')
