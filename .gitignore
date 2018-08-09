@@ -1,3 +1,4 @@
+src/__pycache__/
 src/.idea/
 src/mnist/
 src/celebA/

@@ -89,6 +89,8 @@ class Solver(object):
         num_iters = 20
         total_time = 0.
         for iter_time in range(num_iters):
+            print('iter_time: {}'.format(iter_time))
+
             # measure inference time
             start_time = time.time()
             imgs = self.model.sample_imgs()  # inference
