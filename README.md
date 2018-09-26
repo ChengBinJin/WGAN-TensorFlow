@@ -111,7 +111,7 @@ Please refer to the above arguments.
 
 ### Citation
 ```
-  @misc{chengbinjin2018dcgan,
+  @misc{chengbinjin2018wgan,
     author = {Cheng-Bin Jin},
     title = {WGAN-tensorflow},
     year = {2018},
