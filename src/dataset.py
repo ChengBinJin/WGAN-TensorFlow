@@ -6,10 +6,11 @@
 # ---------------------------------------------------------
 import os
 import numpy as np
-import scipy.misc
 import tensorflow as tf
 
 import utils as utils
+
+from utils import imresize
 
 
 class MnistDataset(object):
@@ -52,7 +53,7 @@ class MnistDataset(object):
         else:
             batch_imgs = np.reshape(batch_imgs, [self.flags.batch_size, 28, 28])
 
-        imgs_32 = [scipy.misc.imresize(batch_imgs[idx], self.image_size[0:2])
+        imgs_32 = [imresize(batch_imgs[idx], self.image_size[0:2])
                    for idx in range(batch_imgs.shape[0])]
         imgs_array = np.expand_dims(np.asarray(imgs_32).astype(np.float32), axis=3)
 
@@ -94,4 +95,3 @@ def Dataset(sess, flags, dataset_name):
         return CelebA(flags, dataset_name)
     else:
         raise NotImplementedError
-
