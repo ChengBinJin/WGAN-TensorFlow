@@ -7,7 +7,7 @@
 import os
 import sys
 import random
-import scipy.misc
+from typing import Tuple
 import numpy as np
 from PIL import Image
 
@@ -35,6 +35,13 @@ class ImagePool(object):
                 return img
 
 
+def imresize(input_image: np.ndarray, size: Tuple[int, int]) -> np.ndarray:
+    """
+    Reshape image to given dimensions using Pillow's resize function.
+    """
+    return np.array(Image.fromarray(input_image.astype('uint8')).resize(size))
+
+
 def center_crop(img, crop_h, crop_w, resize_h=64, resize_w=64):
     if crop_w is None:
         crop_w = crop_h
@@ -43,21 +50,19 @@ def center_crop(img, crop_h, crop_w, resize_h=64, resize_w=64):
     h_start = int(round((h - crop_h) / 2.))
     w_start = int(round((w - crop_w) / 2.))
     # resize image
-    img_crop = scipy.misc.imresize(img[h_start:h_start+crop_h, w_start:w_start+crop_w], [resize_h, resize_w])
+    img_crop = imresize(img[h_start:h_start+crop_h, w_start:w_start+crop_w], [resize_h, resize_w])
     return img_crop
 
 
 def imread(path, is_gray_scale=False, img_size=None):
-    if is_gray_scale:
-        img = scipy.misc.imread(path, flatten=True).astype(np.float)
-    else:
-        img = scipy.misc.imread(path, mode='RGB').astype(np.float)
+    img = np.asarray(Image.open(path)) \
+        .astype(np.float)
 
-        if not (img.ndim == 3 and img.shape[2] == 3):
-            img = np.dstack((img, img, img))
+    if not is_gray_scale and not (img.ndim == 3 and img.shape[2] == 3):
+        img = np.dstack((img, img, img))
 
     if img_size is not None:
-        img = scipy.misc.imresize(img, img_size)
+        img = imresize(img, img_size)
 
     return img
 
@@ -68,7 +73,7 @@ def load_data(image_path, input_height, input_width, resize_height=64, resize_wi
     if crop:
         cropped_img = center_crop(img, input_height, input_width, resize_height, resize_width)
     else:
-        cropped_img = scipy.misc.imresize(img, [resize_height, resize_width])
+        cropped_img = imresize(img, [resize_height, resize_width])
 
     img_trans = transform(cropped_img)  # from [0, 255] to [-1., 1.]
 
@@ -135,4 +140,3 @@ def transform(img):
 
 def inverse_transform(img):
     return (img + 1.) / 2.
-
